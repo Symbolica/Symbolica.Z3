@@ -85,5 +85,6 @@ jobs:
         cp Windows/*/LICENSE.txt out
         cp Icon.png out
         nuget pack Symbolica.Z3.nuspec -BasePath out -Symbols -SymbolPackageFormat snupkg -Properties "version=${version};commit=${{ env.Z3_COMMIT }};targetFramework=${{ env.TARGET_FRAMEWORK }}"
+      shell: bash
     - name: NuGet Push
       run: nuget push *.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_API_KEY }}
