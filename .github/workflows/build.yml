@@ -1,0 +1,89 @@
+name: Build
+on:
+  push:
+    branches:
+    - master
+    tags:
+    - "*"
+  pull_request:
+env:
+  Z3_COMMIT: d5c6abe14d3edc18667e5828144816ec756289fb
+  TARGET_FRAMEWORK: netstandard1.4
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+        - os: ubuntu-18.04
+        - os: windows-2019
+        - os: macos-10.15
+    steps:
+    - name: Checkout Z3
+      uses: actions/checkout@master
+      with:
+        repository: Z3Prover/z3
+        ref: ${{ env.Z3_COMMIT }}
+        fetch-depth: 0
+    - name: Setup python environment
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.9"
+    - name: Setup dotnet SDK
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: "5.0.300"
+    - name: Make unix distribution
+      if: runner.os != 'Windows'
+      run: python scripts/mk_unix_dist.py --nojava --dotnet-key=resources/z3.snk
+    - name: Make Windows distribution
+      if: runner.os == 'Windows'
+      run: call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat" && python scripts\mk_win_dist.py --x64-only --nojava --dotnet-key=resources/z3.snk
+      shell: cmd
+    - name: Upload distribution
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ runner.os }}
+        path: dist/*/**/*
+        retention-days: 1
+  nuget-push:
+    runs-on: ubuntu-18.04
+    needs: [build]
+    steps:
+    - name: Download distributions
+      uses: actions/download-artifact@v2
+    - name: Checkout code
+      uses: actions/checkout@master
+      with:
+        fetch-depth: 0
+    - name: Setup NuGet executable
+      uses: nuget/setup-nuget@v1
+      with:
+        nuget-version: "5.9"
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.9
+      with:
+        versionSpec: "5.6.9"
+    - name: Run GitVersion
+      id: gitversion
+      uses: gittools/actions/gitversion/execute@v0.9.9
+    - name: NuGet Pack
+      run: |
+        version=${{ steps.gitversion.outputs.nuGetVersionV2 }}
+        if [ "${{ github.event_name }}" == "pull_request" ]
+        then
+            version=${version}-${{ steps.gitversion.outputs.shortSha }}
+        fi
+        mkdir -p out/lib/${{ env.TARGET_FRAMEWORK }}
+        cp Windows/*/bin/Microsoft.Z3.{dll,pdb,xml} out/lib/${{ env.TARGET_FRAMEWORK }}
+        mkdir -p out/runtimes/linux-x64/native
+        cp Linux/*/bin/libz3.so out/runtimes/linux-x64/native
+        mkdir -p out/runtimes/win-x64/native
+        cp Windows/*/bin/libz3.{dll,pdb} out/runtimes/win-x64/native
+        mkdir -p out/runtimes/osx-x64/native
+        cp macOS/*/bin/libz3.dylib out/runtimes/osx-x64/native
+        cp Windows/*/LICENSE.txt out
+        cp Icon.png out
+        nuget pack Symbolica.Z3.nuspec -BasePath out -Symbols -SymbolPackageFormat snupkg -Properties "version=${version};commit=${{ env.Z3_COMMIT }};targetFramework=${{ env.TARGET_FRAMEWORK }}"
+    - name: NuGet Push
+      run: nuget push *.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey ${{ secrets.NUGET_API_KEY }}
