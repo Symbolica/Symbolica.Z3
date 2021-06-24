@@ -74,16 +74,6 @@ jobs:
         then
             version=${version}-${{ steps.gitversion.outputs.shortSha }}
         fi
-        mkdir -p out/lib/${{ env.TARGET_FRAMEWORK }}
-        cp "Windows/*/bin/Microsoft.Z3.{dll,pdb,xml}" out/lib/${{ env.TARGET_FRAMEWORK }}
-        mkdir -p out/runtimes/linux-x64/native
-        cp "Linux/*/bin/libz3.so" out/runtimes/linux-x64/native
-        mkdir -p out/runtimes/win-x64/native
-        cp "Windows/*/bin/libz3.{dll,pdb}" out/runtimes/win-x64/native
-        mkdir -p out/runtimes/osx-x64/native
-        cp "macOS/*/bin/libz3.dylib" out/runtimes/osx-x64/native
-        cp "Windows/*/LICENSE.txt" out
-        cp "Icon.png" out
         nuget pack Symbolica.Z3.nuspec -BasePath out -Symbols -SymbolPackageFormat snupkg -Properties "version=${version};commit=${{ env.Z3_COMMIT }};targetFramework=${{ env.TARGET_FRAMEWORK }}"
       shell: bash
     - name: NuGet Push
