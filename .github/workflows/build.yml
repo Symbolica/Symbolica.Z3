@@ -38,8 +38,7 @@ jobs:
       run: python scripts/mk_unix_dist.py --nojava --dotnet-key=resources/z3.snk
     - name: Make Windows distribution
       if: runner.os == 'Windows'
-      run: call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat" && python scripts\mk_win_dist.py --x64-only --nojava --dotnet-key=resources/z3.snk
-      shell: cmd
+      run: cmd /c "`"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat`" x64 && python scripts\mk_win_dist.py --x64-only --nojava --dotnet-key=resources/z3.snk"
     - name: Upload distribution
       uses: actions/upload-artifact@v2
       with:
