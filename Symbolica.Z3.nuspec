@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Symbolica.Z3</id>
+    <version>$version$</version>
+    <authors>Symbolica</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">LICENSE.txt</license>
+    <icon>Icon.png</icon>
+    <projectUrl>https://github.com/SymbolicaDev/Symbolica.Z3</projectUrl>
+    <description>Z3 built from an arbitrary commit and packaged for dotnet.</description>
+    <copyright>Copyright 2021 Symbolica Dev Limited</copyright>
+    <tags>Symbolica dotnet Z3 smt constraint solver theorem prover</tags>
+    <repository type="git" url="https://github.com/Z3Prover/z3" commit="$commit$" />
+    <dependencies>
+      <group targetFramework="$targetFramework$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Icon.png" target="" />
+    <file src="Windows\*\LICENSE.txt" target="" />
+    <file src="Windows\*\bin\Microsoft.Z3.*" target="lib\$targetFramework$" exclude="**\*.json" />
+    <file src="Windows\*\bin\libz3.*" target="runtimes\win-x64\native" exclude="**\*.lib" />
+    <file src="Linux\*\bin\libz3.*" target="runtimes\linux-x64\native" exclude="**\*.a" />
+    <file src="macOS\*\bin\libz3.*" target="runtimes\osx-x64\native" exclude="**\*.a" />
+  </files>
+</package>
