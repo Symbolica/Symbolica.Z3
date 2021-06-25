@@ -50,12 +50,12 @@ jobs:
     runs-on: ubuntu-18.04
     needs: [build]
     steps:
-    - name: Download distributions
-      uses: actions/download-artifact@v2
     - name: Checkout code
       uses: actions/checkout@master
       with:
         fetch-depth: 0
+    - name: Download distributions
+      uses: actions/download-artifact@v2
     - name: Setup NuGet executable
       uses: nuget/setup-nuget@v1
       with:
