@@ -16,8 +16,11 @@ jobs:
       matrix:
         include:
         - os: ubuntu-18.04
+          makeScript: python scripts/mk_unix_dist.py --nojava --dotnet-key=resources/z3.snk
         - os: windows-2019
+          makeScript: cmd /c "`"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat`" x64 && python scripts\mk_win_dist.py --x64-only --nojava --dotnet-key=resources/z3.snk"
         - os: macos-10.15
+          makeScript: python scripts/mk_unix_dist.py --nojava --dotnet-key=resources/z3.snk
     steps:
     - name: Checkout Z3
       uses: actions/checkout@master
@@ -33,12 +36,8 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: "5.0.300"
-    - name: Make unix distribution
-      if: runner.os != 'Windows'
-      run: python scripts/mk_unix_dist.py --nojava --dotnet-key=resources/z3.snk
-    - name: Make Windows distribution
-      if: runner.os == 'Windows'
-      run: cmd /c "`"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat`" x64 && python scripts\mk_win_dist.py --x64-only --nojava --dotnet-key=resources/z3.snk"
+    - name: Make distribution
+      run: ${{ matrix.makeScript }}
     - name: Upload distribution
       uses: actions/upload-artifact@v2
       with:
