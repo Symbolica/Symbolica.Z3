@@ -18,7 +18,7 @@ jobs:
         - os: ubuntu-18.04
           makeScript: python scripts/mk_unix_dist.py --nojava --dotnet-key=resources/z3.snk
         - os: windows-2019
-          makeScript: cmd /c "`"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat`" x64 && python scripts\mk_win_dist.py --x64-only --nojava --dotnet-key=resources/z3.snk"
+          makeScript: cmd /c "`"${(Get-VsSetupInstance).InstallationPath}\VC\Auxiliary\Build\vcvarsall.bat`" x64 && python scripts\mk_win_dist.py --x64-only --nojava --dotnet-key=resources/z3.snk"
         - os: macos-10.15
           makeScript: python scripts/mk_unix_dist.py --nojava --dotnet-key=resources/z3.snk
     steps:
