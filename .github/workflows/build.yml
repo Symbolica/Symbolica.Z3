@@ -7,7 +7,7 @@ on:
     - "*"
   pull_request:
 env:
-  Z3_COMMIT: d5c6abe14d3edc18667e5828144816ec756289fb
+  Z3_COMMIT: 3a402ca2c14c3891d24658318406f80ce59b719f
   TARGET_FRAMEWORK: netstandard1.4
 jobs:
   build:
