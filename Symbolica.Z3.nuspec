@@ -18,10 +18,11 @@
   </metadata>
   <files>
     <file src="Icon.png" target="" />
-    <file src="Windows\*\LICENSE.txt" target="" />
-    <file src="Windows\*\bin\Microsoft.Z3.*" target="lib\$targetFramework$" exclude="**\*.json" />
-    <file src="Windows\*\bin\libz3.dll" target="runtimes\win-x64\native" />
-    <file src="Linux\*\bin\libz3.so" target="runtimes\linux-x64\native" />
-    <file src="macOS\*\bin\libz3.dylib" target="runtimes\osx-x64\native" />
+    <file src="windows-*\*\LICENSE.txt" target="" />
+    <file src="windows-*\*\bin\Microsoft.Z3.*" target="lib\$targetFramework$" exclude="**\*.json" />
+    <file src="windows-*\*\bin\libz3.dll" target="runtimes\win-x64\native" />
+    <file src="ubuntu-18.04\*\bin\libz3.so" target="runtimes\debian-x64\native" />
+    <file src="ubuntu-20.04\*\bin\libz3.so" target="runtimes\ubuntu.20.04-x64\native" />
+    <file src="macos-*\*\bin\libz3.dylib" target="runtimes\osx-x64\native" />
   </files>
 </package>
