@@ -7,7 +7,7 @@ on:
     - "*"
   pull_request:
 env:
-  Z3_COMMIT: 3a402ca2c14c3891d24658318406f80ce59b719f
+  Z3_COMMIT: 2e4bdb390882334a8b28638ff15e64ea682d0921
   TARGET_FRAMEWORK: netstandard1.4
 jobs:
   build:
@@ -27,7 +27,7 @@ jobs:
     - name: Checkout Z3
       uses: actions/checkout@master
       with:
-        repository: Z3Prover/z3
+        repository: Symbolica/z3
         ref: ${{ env.Z3_COMMIT }}
         fetch-depth: 0
     - name: Setup python environment

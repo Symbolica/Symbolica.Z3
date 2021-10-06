@@ -11,7 +11,7 @@
     <description>Z3 built from an arbitrary commit and packaged for dotnet.</description>
     <copyright>Copyright 2021 Symbolica Dev Limited</copyright>
     <tags>Symbolica dotnet Z3 smt constraint solver theorem prover</tags>
-    <repository type="git" url="https://github.com/Z3Prover/z3" commit="$commit$" />
+    <repository type="git" url="https://github.com/Symbolica/z3" commit="$commit$" />
     <dependencies>
       <group targetFramework="$targetFramework$" />
     </dependencies>
