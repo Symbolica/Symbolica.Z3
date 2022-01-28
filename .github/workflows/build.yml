@@ -20,7 +20,7 @@ jobs:
         - os: ubuntu-20.04
           makeScript: python scripts/mk_unix_dist.py --nojava --dotnet-key=resources/z3.snk
         - os: windows-2022
-          makeScript: cmd /c "`"C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat`" x64 && python scripts\mk_win_dist.py --x64-only --nojava --dotnet-key=resources/z3.snk"
+          makeScript: cmd /c "`"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat`" x64 && python scripts\mk_win_dist.py --x64-only --nojava --dotnet-key=resources/z3.snk"
         - os: macos-11
           makeScript: python scripts/mk_unix_dist.py --nojava --dotnet-key=resources/z3.snk
     steps:
