@@ -7,7 +7,7 @@ on:
     - "*"
   pull_request:
 env:
-  Z3_COMMIT: 3a402ca2c14c3891d24658318406f80ce59b719f
+  Z3_COMMIT: df8f9d7dcb8b9f9b3de1072017b7c2b7f63f0af8
   TARGET_FRAMEWORK: netstandard1.4
 jobs:
   build:
@@ -19,9 +19,9 @@ jobs:
           makeScript: python scripts/mk_unix_dist.py --nojava --dotnet-key=resources/z3.snk
         - os: ubuntu-20.04
           makeScript: python scripts/mk_unix_dist.py --nojava --dotnet-key=resources/z3.snk
-        - os: windows-2019
-          makeScript: cmd /c "`"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat`" x64 && python scripts\mk_win_dist.py --x64-only --nojava --dotnet-key=resources/z3.snk"
-        - os: macos-10.15
+        - os: windows-2022
+          makeScript: cmd /c "`"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat`" x64 && python scripts\mk_win_dist.py --x64-only --nojava --dotnet-key=resources/z3.snk"
+        - os: macos-11
           makeScript: python scripts/mk_unix_dist.py --nojava --dotnet-key=resources/z3.snk
     steps:
     - name: Checkout Z3
@@ -33,11 +33,11 @@ jobs:
     - name: Setup python environment
       uses: actions/setup-python@v2
       with:
-        python-version: "3.9"
+        python-version: "3.10"
     - name: Setup dotnet SDK
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: "5.0.300"
+        dotnet-version: "6.0.101"
     - name: Make distribution
       run: ${{ matrix.makeScript }}
     - name: Upload distribution
@@ -59,14 +59,14 @@ jobs:
     - name: Setup NuGet executable
       uses: nuget/setup-nuget@v1
       with:
-        nuget-version: "5.9"
+        nuget-version: "6.0"
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.9.9
+      uses: gittools/actions/gitversion/setup@v0.9.11
       with:
-        versionSpec: "5.6.9"
+        versionSpec: "5.8.1"
     - name: Run GitVersion
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v0.9.9
+      uses: gittools/actions/gitversion/execute@v0.9.11
     - name: NuGet Pack
       run: |
         version=${{ steps.gitversion.outputs.nuGetVersionV2 }}

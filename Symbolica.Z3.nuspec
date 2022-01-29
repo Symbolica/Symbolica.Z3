@@ -7,9 +7,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="file">LICENSE.txt</license>
     <icon>Icon.png</icon>
-    <projectUrl>https://github.com/SymbolicaDev/Symbolica.Z3</projectUrl>
+    <projectUrl>https://github.com/Symbolica/Symbolica.Z3</projectUrl>
     <description>Z3 built from an arbitrary commit and packaged for dotnet.</description>
-    <copyright>Copyright 2021 Symbolica Dev Limited</copyright>
+    <copyright>Copyright 2022 Symbolica Dev Limited</copyright>
     <tags>Symbolica dotnet Z3 smt constraint solver theorem prover</tags>
     <repository type="git" url="https://github.com/Z3Prover/z3" commit="$commit$" />
     <dependencies>
